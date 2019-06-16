@@ -1,0 +1,20 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Ghanim Al Marzouqi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase": "^6.1.1",
+    "firebase-admin": "^8.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
