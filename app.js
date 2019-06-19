@@ -79,5 +79,68 @@ app.get("/load-parkings", (req, res) => {
     });
 });
 
+// find car
+app.post("/find-car", (req, res) => {
+    // get request body
+    const { car_number, car_code } = req.body;
+    const bookings = [];
+
+    db.collection("bookings").where("car_number", "==", car_number).where("car_code", "==", car_code).get().then(snapshot => {
+        if(snapshot.docs.length > 0) {
+            snapshot.docs.forEach(doc => {
+                bookings.push(doc.data());
+            });
+
+            res.json({
+                status: "success",
+                message: "Booking data",
+                data: bookings[0]
+            });
+        } else {
+            res.json({
+                status: "failure",
+                message: "No Booking data found",
+                data: bookings
+            });
+        }
+    }).catch(err => {
+        res.json({
+            status: "error",
+            message: "Cannot get bookings data",
+            data: err
+        });
+    });
+});
+
+// add car
+app.post("/add-parking", (req, res) => {
+    // get request body
+    const { number, name, location, latitude, longitude, is_available } = req.body;
+
+    // prepare data
+    const parking = {
+        parking_id: number,
+        name,
+        location,
+        latitude,
+        longitude,
+        is_available
+    }
+
+    db.collection("parkings").doc(`${parking.parking_id}`).set(parking).then(val => {
+        res.json({
+            status: "success",
+            message: "Parking added successfully",
+            data: val
+        });
+    }).catch(err => {
+        res.json({
+            status: "error",
+            message: "Cannot add parking",
+            data: err
+        });
+    });
+});
+
 // serve app
 app.listen(port, () => console.log(`Listening on port ${port}`));
