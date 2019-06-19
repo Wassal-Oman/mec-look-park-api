@@ -142,5 +142,24 @@ app.post("/add-parking", (req, res) => {
     });
 });
 
+// delete parking
+app.post("/delete-parking", (req, res) => {
+    // get request body
+    const parking_id = req.body.parking_id;
+
+    db.collection("parkings").doc(`${parking_id}`).delete().then(() => {
+        res.json({
+            status: "success",
+            message: "Parking deleted successfully"
+        });
+    }).catch(err => {
+        res.json({
+            status: "error",
+            message: "Cannot delete parking",
+            data: err
+        });
+    });
+});
+
 // serve app
 app.listen(port, () => console.log(`Listening on port ${port}`));
