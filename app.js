@@ -56,24 +56,24 @@ app.post("/login", (req, res) => {
 });
 
 // load parkings
-app.get("/load-parkings", (req, res) => {
+app.get("/load-parks", (req, res) => {
     // empty array
     const parkings = [];
 
-    db.collection("parkings").get().then(snapshot => {
+    db.collection("parks").get().then(snapshot => {
         snapshot.docs.forEach(doc => {
             parkings.push(doc.data());
         });
 
         res.json({
             status: "success",
-            message: "Parkings data",
+            message: "Parks data",
             data: parkings
         });
     }).catch(err => {
         res.json({
             status: "error",
-            message: "Cannot load parkings data",
+            message: "Cannot load parks data",
             data: err
         });
     });
@@ -127,7 +127,7 @@ app.post("/add-parking", (req, res) => {
         is_available
     }
 
-    db.collection("parkings").doc(`${parking.parking_id}`).set(parking).then(val => {
+    db.collection("parks").doc(`${parking.parking_id}`).set(parking).then(val => {
         res.json({
             status: "success",
             message: "Parking added successfully",
@@ -147,7 +147,7 @@ app.post("/delete-parking", (req, res) => {
     // get request body
     const parking_id = req.body.parking_id;
 
-    db.collection("parkings").doc(`${parking_id}`).delete().then(() => {
+    db.collection("parks").doc(`${parking_id}`).delete().then(() => {
         res.json({
             status: "success",
             message: "Parking deleted successfully"
