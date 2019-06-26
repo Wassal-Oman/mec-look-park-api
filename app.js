@@ -85,7 +85,7 @@ app.post("/find-car", (req, res) => {
     const { car_number, car_code } = req.body;
     const bookings = [];
 
-    db.collection("bookings").where("car_number", "==", car_number).where("car_code", "==", car_code).get().then(snapshot => {
+    db.collection("bookings").where("car_number", "==", Number.parseInt(car_number)).where("car_code", "==", car_code).get().then(snapshot => {
         if(snapshot.docs.length > 0) {
             snapshot.docs.forEach(doc => {
                 bookings.push(doc.data());
